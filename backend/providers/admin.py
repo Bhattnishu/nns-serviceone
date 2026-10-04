@@ -6,7 +6,7 @@ admin.site.register(ServiceCategory)
 
 @admin.register(ProviderProfile)
 class ProviderProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "category", "experience_years", "status")
+    list_display = ("user", "experience_years", "status")
 
 
 admin.site.register(Service)

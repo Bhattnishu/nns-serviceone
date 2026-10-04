@@ -24,8 +24,7 @@ load_dotenv(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7!r$3ug02+fm2x1bwrvan=s^0nk5@osmjd+^qq@m7u6=ph8s+e'
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -44,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'providers',
+    "discovery",
+    "bookings",
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,6 @@ MAILERS = {
 }
 
 AUTH_USER_MODEL = "accounts.User"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import ProviderProfile, Service
 from .serializers import ProviderProfileSerializer, ServiceSerializer
 
@@ -16,9 +16,10 @@ class ProviderProfileCreateView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class MyProviderProfileView(generics.RetrieveAPIView):
+class MyProviderProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = ProviderProfileSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_object(self):
         return self.request.user.provider_profile
@@ -47,6 +48,7 @@ class MyServicesListView(generics.ListAPIView):
     def get_queryset(self):
         provider = self.request.user.provider_profile
         return Service.objects.filter(provider=provider)
+
 
 class MyServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ServiceSerializer
