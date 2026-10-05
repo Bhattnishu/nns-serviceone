@@ -24,15 +24,16 @@ class ProviderBookingSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
-    customer_phone = serializers.CharField(
-        source="customer.phone",
-        read_only=True
-    )
+    customer_phone = serializers.SerializerMethodField()
 
     service_name = serializers.CharField(
         source="service.service_name",
         read_only=True
     )
+
+    address = serializers.SerializerMethodField()
+    latitude = serializers.SerializerMethodField()
+    longitude = serializers.SerializerMethodField()
 
     class Meta:
         model = Booking
@@ -53,6 +54,38 @@ class ProviderBookingSerializer(serializers.ModelSerializer):
 
         read_only_fields = fields
 
+    def get_customer_phone(self, obj):
+        if obj.status in [
+            Booking.Status.ACCEPTED,
+            Booking.Status.COMPLETED,
+        ]:
+            return obj.customer.phone
+        return None
+
+    def get_address(self, obj):
+        if obj.status in [
+            Booking.Status.ACCEPTED,
+            Booking.Status.COMPLETED,
+        ]:
+            return obj.address
+        return None
+
+    def get_latitude(self, obj):
+        if obj.status in [
+            Booking.Status.ACCEPTED,
+            Booking.Status.COMPLETED,
+        ]:
+            return obj.latitude
+        return None
+
+    def get_longitude(self, obj):
+        if obj.status in [
+            Booking.Status.ACCEPTED,
+            Booking.Status.COMPLETED,
+        ]:
+            return obj.longitude
+        return None
+
 
 class CustomerBookingSerializer(serializers.ModelSerializer):
 
@@ -61,10 +94,7 @@ class CustomerBookingSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
-    provider_phone = serializers.CharField(
-        source="service.provider.user.phone",
-        read_only=True
-    )
+    provider_phone = serializers.SerializerMethodField()
 
     service_name = serializers.CharField(
         source="service.service_name",
@@ -90,6 +120,15 @@ class CustomerBookingSerializer(serializers.ModelSerializer):
 
         read_only_fields = fields
 
+    def get_provider_phone(self, obj):
+        if obj.status in [
+            Booking.Status.ACCEPTED,
+            Booking.Status.COMPLETED,
+        ]:
+            return obj.service.provider.user.phone
+        return None
+
+
 class BookingStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -98,17 +137,26 @@ class BookingStatusSerializer(serializers.ModelSerializer):
 
     def validate_status(self, value):
 
-        if value not in [
-            Booking.Status.ACCEPTED,
-            Booking.Status.REJECTED,
-        ]:
-            raise serializers.ValidationError(
-                "You can only accept or reject a booking."
-            )
+        current_status = self.instance.status
 
-        if self.instance.status != Booking.Status.PENDING:
+        if current_status == Booking.Status.PENDING:
+            if value not in [
+                Booking.Status.ACCEPTED,
+                Booking.Status.REJECTED,
+            ]:
+                raise serializers.ValidationError(
+                    "A pending booking can only be accepted or rejected."
+                )
+
+        elif current_status == Booking.Status.ACCEPTED:
+            if value != Booking.Status.COMPLETED:
+                raise serializers.ValidationError(
+                    "An accepted booking can only be marked as completed."
+                )
+
+        else:
             raise serializers.ValidationError(
-                "Only pending bookings can be updated."
+                "This booking status cannot be changed."
             )
 
         return value
