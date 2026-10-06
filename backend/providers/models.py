@@ -30,6 +30,27 @@ class ProviderProfile(models.Model):
     description = models.TextField()
     experience_years = models.PositiveIntegerField(default=0)
 
+    service_state = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
+    service_district = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
+    service_pincode = models.CharField(
+        max_length=6,
+        null=True,
+        blank=True
+    )
+    service_area = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True
+    )
+
     status = models.CharField(
         max_length=20,
         choices=Status.choices,

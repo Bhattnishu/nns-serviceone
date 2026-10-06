@@ -1,5 +1,6 @@
 from rest_framework import generics
 from django.db.models import Q
+from rest_framework.permissions import AllowAny
 
 from providers.models import ServiceCategory, ProviderProfile
 
@@ -17,6 +18,7 @@ class CategoryListView(generics.ListAPIView):
 
 class ProviderListView(generics.ListAPIView):
     serializer_class = ServiceProviderProfileSerializer
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
 
@@ -26,6 +28,9 @@ class ProviderListView(generics.ListAPIView):
 
         category = self.request.query_params.get("category")
         search = self.request.query_params.get("search")
+        state = self.request.query_params.get("state")
+        district = self.request.query_params.get("district")
+        pincode = self.request.query_params.get("pincode")
 
         if category:
             provider = provider.filter(
@@ -39,6 +44,21 @@ class ProviderListView(generics.ListAPIView):
                 Q(services__category__name__icontains=search) |
                 Q(services__description__icontains=search)
             ).distinct()
+
+        if state:
+            provider = provider.filter(
+                service_state__iexact=state
+            )
+
+        if district:
+            provider = provider.filter(
+                service_district__iexact=district
+            )
+
+        if pincode:
+            provider = provider.filter(
+                service_pincode=pincode
+            )
 
         return provider
 

@@ -48,5 +48,9 @@ class ServiceProviderProfileSerializer(serializers.ModelSerializer):
             "description",
             "experience_years",
             "profile_photo",
+            "service_state",
+            "service_district",
+            "service_pincode",
+            "service_area",
             "services",
         ]
