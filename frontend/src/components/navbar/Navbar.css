@@ -1,0 +1,37 @@
+.navbar{
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+.navbar-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar-brand{
+    font-size: 24px;
+    font-weight: 700;
+}
+.navbar-links a {
+    text-decoration: none;
+    color: #374151;
+    font-size: 15px;
+}
+.login-btn , .signup-btn {
+    padding: 1-px;
+    border-radius:8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.login-btn{
+    border:1px solid #d1d5db;
+    background: white;
+}
+
+.signup-btn{
+    border:none;
+    background: #111827;
+    color:white;
+}
