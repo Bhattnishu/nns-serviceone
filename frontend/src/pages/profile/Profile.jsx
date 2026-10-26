@@ -1,230 +1,220 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import ProfileHeader from "../../components/profile-header/ProfileHeader";
+import ProfileSection from "../../components/profile-section/ProfileSection";
+import ProfileField from "../../components/profile-field/ProfileField";
+import ProfileActions from "../../components/profile-actions/ProfileActions";
 import "./Profile.css";
 
-const Profile = () => {
-    const navigate = useNavigate();
-
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            const accessToken = localStorage.getItem("accessToken");
-
-            if (!accessToken) {
-                navigate("/login", {
-                    replace: true,
-                    state: {
-                        message: "Please log in to view your profile.",
-                    },
-                });
-                return;
-            }
-
-            try {
-                const response = await api.get("/auth/me/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                setUser(response.data);
-            } catch (err) {
-                setError(
-                    err.response?.data?.detail ||
-                    "Unable to load your profile. Please try again."
-                );
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchProfile();
-    }, [navigate]);
-
-    if (loading) {
-        return (
-            <main className="profile-page">
-                <section className="profile-state">
-                    <p>Loading your profile...</p>
-                </section>
-            </main>
-        );
-    }
-
-    if (error) {
-        return (
-            <main className="profile-page">
-                <section className="profile-state">
-                    <h1>My Profile</h1>
-                    <p className="profile-error" role="alert">
-                        {error}
-                    </p>
-                    <button
-                        className="profile-primary-button"
-                        onClick={() => navigate("/")}
-                    >
-                        Back to Home
-                    </button>
-                </section>
-            </main>
-        );
-    }
-
-    if (!user) {
-        return null;
-    }
-
-    const addressParts = [
-        user.address,
-        user.area,
-        user.city,
-        user.state,
-        user.pincode,
-    ].filter(Boolean);
-
-    const savedAddress = addressParts.join(", ");
-
-    const personalFields = [
-        { label: "Full name", value: user.name },
-        { label: "Email address", value: user.email },
-        { label: "Phone number", value: user.phone },
-    ];
-
-    return (
-        <main className="profile-page">
-            <div className="profile-container">
-                <div className="profile-topbar">
-                    <div>
-                        <p className="profile-eyebrow">YOUR ACCOUNT</p>
-                        <h1>My Profile</h1>
-                        <p className="profile-subtitle">
-                            Manage your personal information and saved address.
-                        </p>
-                    </div>
-
-                    <div className="profile-avatar">
-                        {user.name?.charAt(0).toUpperCase() || "U"}
-                    </div>
-                </div>
-
-                <section className="profile-section">
-                    <div className="profile-section-heading">
-                        <div className="profile-section-icon">♙</div>
-                        <div>
-                            <h2>Personal Information</h2>
-                            <p>Your account details</p>
-                        </div>
-                    </div>
-
-                    <div className="profile-fields">
-                        {personalFields.map((field) => (
-                            <div className="profile-field" key={field.label}>
-                                <div className="profile-field-content">
-                                    <span className="profile-field-label">
-                                        {field.label}
-                                    </span>
-                                    <p>
-                                        {field.value || "Not provided"}
-                                    </p>
-                                </div>
-
-                                <span
-                                    className="profile-edit-icon"
-                                    aria-hidden="true"
-                                    title="Editing will be available soon"
-                                >
-                                    ✎
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section className="profile-section">
-                    <div className="profile-section-heading">
-                        <div className="profile-section-icon">⌖</div>
-                        <div>
-                            <h2>Saved Address</h2>
-                            <p>Your default service location</p>
-                        </div>
-                    </div>
-
-                    <div className="profile-address">
-                        <div className="profile-address-icon">⌖</div>
-
-                        <div className="profile-field-content">
-                            <span className="profile-field-label">
-                                Home Address
-                            </span>
-
-                            <p>
-                                {savedAddress ||
-                                    "No saved address yet. Add one to make future bookings easier."}
-                            </p>
-
-                            <span className="profile-address-note">
-                                You can use a different address for each booking.
-                            </span>
-                        </div>
-
-                        <span
-                            className="profile-edit-icon"
-                            aria-hidden="true"
-                            title="Editing will be available soon"
-                        >
-                            ✎
-                        </span>
-                    </div>
-                </section>
-
-                <section className="profile-section">
-                    <div className="profile-section-heading">
-                        <div className="profile-section-icon">↗</div>
-                        <div>
-                            <h2>Quick Actions</h2>
-                            <p>Manage your ServiceOne activity</p>
-                        </div>
-                    </div>
-
-                    <div className="profile-actions">
-                        <div className="profile-action">
-                            <div className="profile-action-icon">▣</div>
-                            <div>
-                                <h3>My Bookings</h3>
-                                <p>View your service requests and their status.</p>
-                            </div>
-                            <span className="profile-action-arrow">→</span>
-                        </div>
-
-                        <button
-                            type="button"
-                            className="profile-action profile-action-button"
-                            onClick={() => navigate("/offer-service")}
-                        >
-                            <div className="profile-action-icon">＋</div>
-                            <div>
-                                <h3>Offer Services</h3>
-                                <p>Start your journey as a service provider.</p>
-                            </div>
-                            <span className="profile-action-arrow">→</span>
-                        </button>
-                    </div>
-                </section>
-
-                <button
-                    type="button"
-                    className="profile-home-link"
-                    onClick={() => navigate("/")}
-                >
-                    ← Back to Home
-                </button>
-            </div>
-        </main>
-    );
+const emptyProfile = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  area: "",
+  city: "",
+  state: "",
+  pincode: "",
 };
+
+const personalFields = [
+  { name: "name", label: "Full Name", required: true },
+  { name: "email", label: "Email Address", type: "email", required: true },
+  { name: "phone", label: "Phone Number", required: true },
+];
+
+const addressFields = [
+  { name: "address", label: "Street Address" },
+  { name: "area", label: "Local Area" },
+  { name: "city", label: "City" },
+  { name: "state", label: "State" },
+  { name: "pincode", label: "PIN Code", maxLength: 10 },
+];
+
+function Profile() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(emptyProfile);
+  const [draft, setDraft] = useState(emptyProfile);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await api.get("/auth/me/", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const profile = { ...emptyProfile, ...response.data };
+        setUser(profile);
+        setDraft(profile);
+      } catch {
+        setError("Unable to load your profile. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const handleChange = (field, value) => {
+    setDraft((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  };
+
+  const startEditing = () => {
+    setDraft({ ...user });
+    setError("");
+    setSuccess("");
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setDraft({ ...user });
+    setEditing(false);
+    setError("");
+  };
+
+  const saveProfile = async (event) => {
+    event.preventDefault();
+    setSaving(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+
+      const response = await api.patch("/auth/me/", draft, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const updatedProfile = {
+        ...emptyProfile,
+        ...user,
+        ...response.data,
+      };
+
+      setUser(updatedProfile);
+      setDraft(updatedProfile);
+      setEditing(false);
+      setSuccess("Profile updated successfully.");
+    } catch (err) {
+      const data = err.response?.data;
+
+      if (data && typeof data === "object") {
+        const messages = Object.entries(data).flatMap(([field, value]) =>
+          (Array.isArray(value) ? value : [value]).map(
+            (message) =>
+              `${field === "non_field_errors" ? "" : `${field}: `}${message}`
+          )
+        );
+
+        setError(messages.join(" ") || "Unable to update your profile.");
+      } else {
+        setError("Unable to update your profile. Please try again.");
+      }
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const renderFields = (fields) =>
+    fields.map((field) => (
+      <ProfileField
+        key={field.name}
+        label={field.label}
+        value={editing ? draft[field.name] : user[field.name]}
+        editing={editing}
+        type={field.type || "text"}
+        required={field.required || false}
+        maxLength={field.maxLength}
+        onChange={(value) => handleChange(field.name, value)}
+      />
+    ));
+
+  if (loading) {
+    return <div className="profile-page">Loading profile...</div>;
+  }
+
+  return (
+    <main className="profile-page">
+      <div className="profile-container">
+        <button
+          type="button"
+          className="profile-back-button"
+          onClick={() => navigate("/")}
+        >
+          ← Back to Home
+        </button>
+
+        <ProfileHeader editing={editing} onEdit={startEditing} />
+
+        {error && (
+          <p className="profile-error" role="alert">
+            {error}
+          </p>
+        )}
+
+        {success && (
+          <p className="profile-success" role="status">
+            {success}
+          </p>
+        )}
+
+        <form id="profile-edit-form" onSubmit={saveProfile}>
+          <ProfileSection title="Personal Information">
+            <div className="profile-fields">
+              {renderFields(personalFields)}
+            </div>
+          </ProfileSection>
+
+
+          <ProfileSection title="Saved Address">
+            <div className="profile-fields">
+              {renderFields(addressFields)}
+            </div>
+          </ProfileSection>
+
+          {editing && (
+            <div className="profile-edit-actions">
+              <button
+                type="button"
+                className="profile-secondary-button"
+                onClick={cancelEditing}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="profile-primary-button"
+                disabled={saving}
+              >
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          )}
+        </form>
+
+        <ProfileActions />
+      </div>
+    </main>
+  );
+}
 
 export default Profile;

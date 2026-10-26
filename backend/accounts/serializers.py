@@ -52,3 +52,39 @@ class LoginSerializer(serializers.Serializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "name",
+            "email",
+            "phone",
+            "address",
+            "area",
+            "city",
+            "state",
+            "pincode",
+        ]
+
+    def validate_email(self, value):
+        # Prevent another account from using this email.
+        queryset = User.objects.filter(email__iexact=value).exclude(
+            pk=self.instance.pk
+        )
+        if queryset.exists():
+            raise serializers.ValidationError(
+                "This email address is already in use."
+            )
+        return value
+
+    def validate_phone(self, value):
+        # Prevent another account from using this phone number.
+        queryset = User.objects.filter(phone=value).exclude(
+            pk=self.instance.pk
+        )
+        if queryset.exists():
+            raise serializers.ValidationError(
+                "This phone number is already in use."
+            )
+        return value

@@ -1,0 +1,42 @@
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -1px;
+}
+
+.profile-header p {
+  margin: 10px 0 0;
+  color: var(--text-secondary, #A7B0C0);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.profile-header-edit-button {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary, #0F766E);
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.profile-header-edit-button:hover {
+  background: var(--accent, #14B8A6);
+}
+
+@media (max-width: 480px) {
+  .profile-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
