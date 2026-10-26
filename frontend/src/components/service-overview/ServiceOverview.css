@@ -1,0 +1,60 @@
+
+.service-overview {
+    min-width: 0;
+}
+
+.service-overview-eyebrow {
+    margin: 0 0 20px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.service-overview-category {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background-color: var(--surface-raised);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.service-overview-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(29px, 3vw, 36px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.service-overview-description {
+    margin: 18px 0 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.service-overview-price {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 28px;
+}
+
+.service-overview-price span {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.service-overview-price strong {
+    color: var(--accent);
+    font-size: clamp(26px, 2.5vw, 30px);
+    overflow-wrap: anywhere;
+}

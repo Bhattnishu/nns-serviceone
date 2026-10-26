@@ -1,12 +1,17 @@
 from rest_framework import serializers
 from .models import Booking
+from providers.models import ProviderProfile, Service
 
 
 class BookingCreateSerializer(serializers.ModelSerializer):
+    service = serializers.PrimaryKeyRelatedField(
+        queryset=Service.objects.filter(
+            provider__status=ProviderProfile.Status.APPROVED
+        )
+    )
 
     class Meta:
         model = Booking
-
         fields = [
             "service",
             "message",

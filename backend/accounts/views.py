@@ -21,4 +21,10 @@ class MeView(APIView):
             "name": request.user.name,
             "email": request.user.email,
             "phone": request.user.phone,
+
+            "address": request.user.address,
+            "area": request.user.area,
+            "city": request.user.city,
+            "state": request.user.state,
+            "pincode": request.user.pincode,
         })

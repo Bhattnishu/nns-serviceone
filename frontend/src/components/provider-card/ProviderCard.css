@@ -1,0 +1,259 @@
+
+.provider-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    min-height: 360px;
+    overflow: hidden;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.provider-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+}
+
+.provider-card-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    padding: 18px;
+}
+
+/* Service heading and profile photo */
+.provider-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.provider-card-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.provider-card-category {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 10px;
+    padding: 5px 8px;
+    overflow: hidden;
+    text-transform: capitalize;
+
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.provider-card-service-name {
+    display: -webkit-box;
+    min-height: 2.7em;
+    margin: 0;
+    overflow: hidden;
+
+    color: var(--text-primary);
+    font-size: 19px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    text-transform: capitalize;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.provider-card-image-wrapper {
+    flex: 0 0 60px;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+
+    background-color: var(--surface-raised);
+    border-radius: var(--radius-md);
+}
+
+.provider-card-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.provider-card-image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    color: var(--accent);
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* Description */
+.provider-card-description {
+    display: -webkit-box;
+    min-height: 3.2em;
+    margin: 12px 0 0;
+    overflow: hidden;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-transform: capitalize;
+}
+
+/* Provider name and experience */
+.provider-card-provider {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 16px;
+}
+
+.provider-card-provider-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+    text-transform: capitalize;
+}
+
+.provider-card-icon {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+}
+
+.provider-card-experience {
+    padding-left: 24px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* Location: reserve the same minimum space on every card */
+.provider-card-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    min-height: 42px;
+    margin: 12px 0 0;
+    text-transform: capitalize;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.provider-card-location span {
+    min-width: 0;
+}
+
+.provider-card-location.is-empty {
+    visibility: hidden;
+}
+
+/* Price and details action */
+.provider-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.provider-card-price {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+
+.provider-card-price > span {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.provider-card-price strong {
+    color: var(--accent);
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.provider-card-details {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 10px 12px;
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-sm);
+
+    background-color: var(--primary);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.provider-card-details:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.provider-card-details:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .provider-card {
+        min-height: 360px;
+    }
+
+    .provider-card-content {
+        padding: 16px;
+    }
+
+    .provider-card-service-name {
+        font-size: 18px;
+    }
+}

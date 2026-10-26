@@ -1,0 +1,28 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Local databases and uploaded media
+db.sqlite3
+*.sqlite3
+media/
+
+# Node.js and build output
+node_modules/
+dist/
+dist-ssr/
+
+# Logs and local files
+*.log
+*.local
+
+# Editor and operating system files
+.DS_Store
+.idea/

@@ -40,6 +40,11 @@ class User(AbstractUser):
     name = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, unique=True)
+    address = models.CharField(max_length=255, blank=True, default="")
+    area = models.CharField(max_length=100, blank=True, default="")
+    city = models.CharField(max_length=100, blank=True, default="")
+    state = models.CharField(max_length=100, blank=True, default="")
+    pincode = models.CharField(max_length=6, blank=True, default="")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

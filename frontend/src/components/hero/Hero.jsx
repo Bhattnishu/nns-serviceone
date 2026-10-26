@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Hero.css";
-
+import ServiceSearch from "../service-search/ServiceSearch";
 
 const Hero = () => {
   return (
@@ -30,6 +30,7 @@ const Hero = () => {
         </div>
 
       </div>
+      <ServiceSearch />
     </section>
   );
 };

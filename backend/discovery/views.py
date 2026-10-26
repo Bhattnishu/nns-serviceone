@@ -21,47 +21,52 @@ class ProviderListView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-
-        provider = ProviderProfile.objects.filter(
+        providers = ProviderProfile.objects.filter(
             status="APPROVED"
         )
 
         category = self.request.query_params.get("category")
-        search = self.request.query_params.get("search")
-        state = self.request.query_params.get("state")
-        district = self.request.query_params.get("district")
-        pincode = self.request.query_params.get("pincode")
+        search = self.request.query_params.get("search", "").strip()
+        state = self.request.query_params.get("state", "").strip()
+        district = self.request.query_params.get("district", "").strip()
+        pincode = self.request.query_params.get("pincode", "").strip()
+        area = self.request.query_params.get("area", "").strip()
 
         if category:
-            provider = provider.filter(
+            providers = providers.filter(
                 services__category_id=category
-            ).distinct()
+            )
 
         if search:
-            provider = provider.filter(
-                Q(user__name__icontains=search) |
-                Q(services__service_name__icontains=search) |
-                Q(services__category__name__icontains=search) |
-                Q(services__description__icontains=search)
-            ).distinct()
+            for word in search.split():
+                providers = providers.filter(
+                    Q(user__name__icontains=search)
+                    | Q(services__service_name__icontains=word)
+                    | Q(services__category__name__icontains=word)
+                    | Q(services__description__icontains=word)
+                )
 
         if state:
-            provider = provider.filter(
+            providers = providers.filter(
                 service_state__iexact=state
             )
 
         if district:
-            provider = provider.filter(
+            providers = providers.filter(
                 service_district__iexact=district
             )
 
         if pincode:
-            provider = provider.filter(
+            providers = providers.filter(
                 service_pincode=pincode
             )
 
-        return provider
+        if area:
+            providers = providers.filter(
+                service_area__icontains=area
+            )
 
+        return providers.distinct()
 
 class ProviderDetailView(generics.RetrieveAPIView):
     queryset = ProviderProfile.objects.filter(status="APPROVED")

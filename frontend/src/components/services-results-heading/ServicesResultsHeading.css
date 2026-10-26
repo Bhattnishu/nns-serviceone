@@ -1,0 +1,20 @@
+.services-results-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.services-results-heading h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 22px;
+}
+
+.services-results-heading p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}

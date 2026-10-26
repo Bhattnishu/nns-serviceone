@@ -1,0 +1,108 @@
+
+.provider-profile-card {
+    min-width: 0;
+    padding: 32px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.provider-profile-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+}
+
+.provider-profile-photo-wrapper {
+    flex: 0 0 160px;
+    width: 160px;
+    height: 160px;
+    overflow: hidden;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.provider-profile-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.provider-profile-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--accent);
+    font-size: 52px;
+    font-weight: 700;
+}
+
+.provider-profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.provider-profile-eyebrow {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.provider-profile-info h1 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.provider-profile-description {
+    margin: 16px 0 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.provider-profile-experience {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 20px 0 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.provider-profile-experience svg {
+    flex-shrink: 0;
+    color: var(--accent);
+}
+
+@media (max-width: 700px) {
+    .provider-profile-card {
+        padding: 24px;
+    }
+
+    .provider-profile-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .provider-profile-photo-wrapper {
+        flex-basis: 120px;
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .provider-profile-card {
+        padding: 20px;
+    }
+}

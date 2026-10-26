@@ -1,34 +1,40 @@
+
 :root {
-  /* Brand colors */
-  --primary: #0f766e;
-  --primary-dark: #115e59;
-  --accent: #f59e0b;
+  /* Brand */
+  --primary: #0F766E;
+  --primary-dark: #115E59;
+  --accent: #14B8A6;
 
   /* Text */
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
+  --text-primary: #F8FAFC;
+  --text-secondary: #A7B0C0;
 
-  /* Backgrounds */
-  --background: #f8fafc;
-  --surface: #ffffff;
+  /* Dark surfaces */
+  --background: #080B10;
+  --surface: #0F172A;
+  --surface-raised: #111827;
+  --surface-input: #1B222D;
 
   /* Borders */
-  --border: #e2e8f0;
+  --border: #263244;
 
   /* Status */
-  --success: #16a34a;
-  --error: #dc2626;
+  --success: #22C55E;
+  --error: #F87171;
 
   /* Layout */
-  --max-width: 1200px;
+  --max-width: 1440px;
 
-  /* Border radius */
+  /* Corners */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
 }
 
-* {
+/* Consistent element sizing */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -37,24 +43,21 @@ html {
 }
 
 body {
+  min-height: 100vh;
   margin: 0;
   font-family: "Inter", Arial, sans-serif;
   color: var(--text-primary);
-  background: var(--background);
+  background-color: var(--background);
 }
 
+#root {
+  min-height: 100vh;
+}
+
+/* Keep form controls consistent with the website font */
 button,
 input,
 select,
 textarea {
   font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
 }

@@ -1,0 +1,136 @@
+
+/* Page container */
+.service-details-page {
+    width: 100%;
+    max-width: var(--max-width);
+    min-width: 0;
+    margin: 0 auto;
+    padding: 36px 32px 72px;
+}
+
+/* Back link */
+.service-details-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.service-details-back:hover {
+    color: var(--accent);
+}
+
+.service-details-back:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+/* Main layout */
+.service-details-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.service-details-main,
+.service-details-sidebar {
+    min-width: 0;
+    padding: 28px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+/* Other services */
+.service-other-services {
+    min-width: 0;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.service-other-services h3 {
+    margin: 0 0 12px;
+    color: var(--text-primary);
+    font-size: 15px;
+}
+
+.service-other-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.service-other-link span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.service-other-link span:last-child {
+    flex-shrink: 0;
+}
+
+.service-other-link:last-child {
+    border-bottom: none;
+}
+
+.service-other-link:hover {
+    color: var(--accent);
+}
+
+.service-other-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* Loading and error states */
+.service-details-message,
+.service-details-error {
+    padding: 24px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.service-details-error {
+    color: var(--error);
+}
+
+/* Tablet */
+@media (max-width: 800px) {
+    .service-details-page {
+        padding: 28px 24px 56px;
+    }
+
+    .service-details-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .service-details-page {
+        padding: 24px 20px 40px;
+    }
+
+    .service-details-main,
+    .service-details-sidebar {
+        padding: 20px;
+    }
+}

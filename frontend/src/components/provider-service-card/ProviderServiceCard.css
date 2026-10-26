@@ -1,0 +1,86 @@
+
+.provider-service-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 22px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.provider-service-category {
+    align-self: flex-start;
+    max-width: 100%;
+    padding: 6px 10px;
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-card h3 {
+    margin: 16px 0 0;
+    color: var(--text-primary);
+    font-size: 19px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-description {
+    margin: 10px 0 18px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-price {
+    margin: auto 0 20px;
+    padding-top: 8px;
+    color: var(--accent);
+    font-size: 21px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.provider-service-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding: 12px 14px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.provider-service-link:hover {
+    background-color: var(--primary);
+    color: #FFFFFF;
+}
+
+.provider-service-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.provider-service-link svg {
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .provider-service-card {
+        padding: 20px;
+    }
+}

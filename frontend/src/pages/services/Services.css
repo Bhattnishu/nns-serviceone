@@ -1,0 +1,54 @@
+
+/* Services page container */
+.services-page {
+    width: 100%;
+    max-width: var(--max-width);
+    min-width: 0;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+}
+
+/* Loading, error, and empty states */
+.services-message,
+.services-error,
+.services-empty {
+    padding: 32px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    text-align: center;
+}
+
+.services-message {
+    color: var(--text-secondary);
+}
+
+.services-error {
+    color: var(--error);
+}
+
+.services-empty h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 22px;
+}
+
+.services-empty p {
+    margin: 12px 0 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Tablet and smaller screens */
+@media (max-width: 1000px) {
+    .services-page {
+        padding: 40px 24px 64px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .services-page {
+        padding: 32px 20px 48px;
+    }
+}

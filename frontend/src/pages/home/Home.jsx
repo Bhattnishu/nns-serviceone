@@ -1,10 +1,7 @@
-import Hero from "../../components/hero/Hero"
-const Home = () => {
-  return (
-    <>
-        <Hero /> 
-    </>
-  )
-}
+import Hero from "../../components/hero/Hero";
 
-export default Home
+const Home = () => {
+  return <Hero />;
+};
+
+export default Home;
