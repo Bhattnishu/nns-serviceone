@@ -1,0 +1,106 @@
+
+.my-service-card {
+  padding: 22px;
+  border: 1px solid #263241;
+  border-radius: 12px;
+  background: #0f1722;
+  color: var(--text-primary, #f8fafc);
+}
+
+.my-service-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.my-service-card-header h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.my-service-category {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.my-service-status {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #334155;
+  color: #e2e8f0;
+  font-size: 12px;
+}
+
+.my-service-status-approved {
+  background: #064e3b;
+  color: #a7f3d0;
+}
+
+.my-service-status-pending {
+  background: #78350f;
+  color: #fde68a;
+}
+
+.my-service-status-rejected {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+.my-service-description {
+  margin: 18px 0;
+  color: #cbd5e1;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.my-service-price {
+  margin: 16px 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.my-service-review {
+  padding: 12px;
+  border-radius: 8px;
+  background: #351b20;
+  color: #fecaca;
+  font-size: 14px;
+}
+
+.my-service-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.my-service-actions button {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.my-service-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.my-service-edit-button {
+  background: #0f766e;
+}
+
+.my-service-delete-button {
+  background: #b91c1c;
+}
+
+@media (max-width: 480px) {
+  .my-service-card-header {
+    flex-direction: column;
+  }
+}

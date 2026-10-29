@@ -62,6 +62,11 @@ class ProviderProfile(models.Model):
 
 
 class Service(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        APPROVED = "APPROVED", "Approved"
+        REJECTED = "REJECTED", "Rejected"
+
     provider = models.ForeignKey(
         ProviderProfile,
         on_delete=models.CASCADE,
@@ -75,6 +80,12 @@ class Service(models.Model):
     service_name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.PENDING
+    )
 
     def __str__(self):
         return self.service_name

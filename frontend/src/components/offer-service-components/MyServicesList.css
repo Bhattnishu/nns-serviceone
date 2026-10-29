@@ -1,0 +1,46 @@
+
+.my-services-list {
+  width: 100%;
+  margin-top: 32px;
+}
+
+.my-services-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.my-services-list-header h2 {
+  margin: 0;
+  color: var(--text-primary, #f8fafc);
+}
+
+.my-services-list-header span {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.my-services-list-items {
+  display: grid;
+  gap: 18px;
+}
+
+.my-services-empty {
+  padding: 24px;
+  border: 1px dashed #334155;
+  border-radius: 10px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.my-services-list .offer-service-error {
+  color: #f87171;
+}
+
+@media (max-width: 600px) {
+  .my-services-list-header {
+    align-items: flex-start;
+  }
+}

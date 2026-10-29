@@ -1,20 +1,20 @@
+
 from rest_framework import serializers
 from django.db.models import Q
+
 from providers.models import ServiceCategory, ProviderProfile, Service
 
 
 class ServiceCategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = ServiceCategory
         fields = ["id", "name", "description"]
 
 
 class ServiceSerializer(serializers.ModelSerializer):
-
     category_name = serializers.CharField(
         source="category.name",
-        read_only=True
+        read_only=True,
     )
 
     class Meta:
@@ -31,7 +31,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 class ServiceProviderProfileSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(
         source="user.name",
-        read_only=True
+        read_only=True,
     )
 
     services = serializers.SerializerMethodField()
@@ -52,31 +52,30 @@ class ServiceProviderProfileSerializer(serializers.ModelSerializer):
         ]
 
     def get_services(self, obj):
-        services = obj.services.all()
+        services = obj.services.filter(
+            status=Service.Status.APPROVED,
+            provider__status=ProviderProfile.Status.APPROVED,
+        )
+
         request = self.context.get("request")
 
-        if not request:
-            return ServiceSerializer(services, many=True).data
+        if request:
+            category = request.query_params.get("category")
+            search = request.query_params.get("search", "").strip()
 
-        category = request.query_params.get("category")
-        search = request.query_params.get("search", "").strip()
+            if category:
+                services = services.filter(category_id=category)
 
-        if category:
-            services = services.filter(category_id=category)
+            if search:
+                query = Q()
 
-        if search:
-            query = Q()
+                for word in search.split():
+                    query &= (
+                        Q(service_name__icontains=word)
+                        | Q(category__name__icontains=word)
+                        | Q(description__icontains=word)
+                    )
 
-            for word in search.split():
-                query &= (
-                    Q(service_name__icontains=word)
-                    | Q(category__name__icontains=word)
-                    | Q(description__icontains=word)
-                )
-
-            matching_services = services.filter(query)
-
-            if matching_services.exists():
-                services = matching_services
+                services = services.filter(query)
 
         return ServiceSerializer(services, many=True).data

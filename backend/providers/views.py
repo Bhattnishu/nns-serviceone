@@ -1,16 +1,27 @@
 from rest_framework import generics
+from rest_framework.exceptions import NotFound, PermissionDenied
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.parsers import MultiPartParser, FormParser
+
 from .models import ProviderProfile, Service
 from .serializers import ProviderProfileSerializer, ServiceSerializer
 
-from .models import ProviderProfile
-from .serializers import ProviderProfileSerializer
+
+def get_user_provider_profile(user):
+    provider = getattr(user, "provider_profile", None)
+
+    if provider is None:
+        raise NotFound(
+            "You need to create a provider profile first."
+        )
+
+    return provider
 
 
 class ProviderProfileCreateView(generics.CreateAPIView):
     serializer_class = ProviderProfileSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -22,7 +33,7 @@ class MyProviderProfileView(generics.RetrieveUpdateAPIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def get_object(self):
-        return self.request.user.provider_profile
+        return get_user_provider_profile(self.request.user)
 
 
 class ServiceCreateView(generics.CreateAPIView):
@@ -30,10 +41,9 @@ class ServiceCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        provider = self.request.user.provider_profile
+        provider = get_user_provider_profile(self.request.user)
 
         if provider.status != ProviderProfile.Status.APPROVED:
-            from rest_framework.exceptions import PermissionDenied
             raise PermissionDenied(
                 "Only approved providers can create services."
             )
@@ -46,7 +56,7 @@ class MyServicesListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        provider = self.request.user.provider_profile
+        provider = get_user_provider_profile(self.request.user)
         return Service.objects.filter(provider=provider)
 
 
@@ -55,5 +65,8 @@ class MyServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        provider = self.request.user.provider_profile
+        provider = get_user_provider_profile(self.request.user)
         return Service.objects.filter(provider=provider)
+
+    def perform_update(self, serializer):
+        serializer.save(status=Service.Status.PENDING)

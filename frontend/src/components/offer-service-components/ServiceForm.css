@@ -1,0 +1,135 @@
+
+.service-form-component {
+  width: 100%;
+}
+
+.service-form-component h2 {
+  margin: 8px 0 22px;
+  color: var(--text-primary, #f8fafc);
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.service-form-component label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+  color: #e2e8f0;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.service-form-component input,
+.service-form-component textarea,
+.service-form-component select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #303d50;
+  border-radius: 10px;
+  background: #0b1220;
+  color: #f8fafc;
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.service-form-component input,
+.service-form-component select {
+  min-height: 48px;
+}
+
+.service-form-component select {
+  cursor: pointer;
+}
+
+.service-form-component select option {
+  background: #101827;
+  color: #f8fafc;
+}
+
+.service-form-component textarea {
+  min-height: 108px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.service-form-component input::placeholder,
+.service-form-component textarea::placeholder {
+  color: #718096;
+}
+
+.service-form-component input:focus,
+.service-form-component textarea:focus,
+.service-form-component select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  background: #0d1726;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+.service-form-component .offer-service-error {
+  margin: 0 0 14px;
+  color: #fca5a5;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.service-form-component .offer-service-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.service-form-component button {
+  min-height: 44px;
+  padding: 11px 20px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #0f766e;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease, opacity 0.2s ease;
+}
+
+.service-form-component button:hover:not(:disabled) {
+  background: #0d9488;
+}
+
+.service-form-component button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.service-form-component button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.service-form-component .offer-service-cancel-button {
+  border-color: #354256;
+  background: transparent;
+  color: #cbd5e1;
+}
+
+.service-form-component .offer-service-cancel-button:hover:not(:disabled) {
+  border-color: #64748b;
+  background: rgba(148, 163, 184, 0.08);
+}
+
+@media (max-width: 600px) {
+  .service-form-component .offer-service-form-actions {
+    flex-direction: column;
+  }
+
+  .service-form-component .offer-service-form-actions button {
+    width: 100%;
+  }
+}

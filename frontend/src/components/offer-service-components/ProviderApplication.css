@@ -1,0 +1,118 @@
+
+.provider-application {
+  width: 100%;
+}
+
+.provider-application-header {
+  margin-bottom: 28px;
+}
+
+.provider-application-header h1 {
+  margin: 0 0 10px;
+  color: var(--text-primary, #f8fafc);
+  font-size: 32px;
+}
+
+.provider-application-header p {
+  margin: 0;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.provider-application-card {
+  padding: 28px;
+  border: 1px solid #263241;
+  border-radius: 14px;
+  background: #0f1722;
+}
+
+.provider-application-card h2 {
+  margin: 0 0 12px;
+  color: var(--text-primary, #f8fafc);
+}
+
+.provider-application-description {
+  margin-bottom: 24px;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.provider-application-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.provider-application-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-primary, #f8fafc);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.provider-application-form input,
+.provider-application-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #080b10;
+  color: #f8fafc;
+  font: inherit;
+  font-weight: 400;
+}
+
+.provider-application-form textarea {
+  resize: vertical;
+}
+
+.provider-application-form input:focus,
+.provider-application-form textarea:focus {
+  outline: 2px solid #14b8a6;
+  outline-offset: 1px;
+}
+
+.provider-application-error {
+  margin: 0;
+  color: #f87171;
+  font-size: 14px;
+}
+
+.provider-application-submit {
+  align-self: flex-start;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.provider-application-submit:hover:not(:disabled) {
+  background: #115e59;
+}
+
+.provider-application-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .provider-application-header h1 {
+    font-size: 26px;
+  }
+
+  .provider-application-card {
+    padding: 20px;
+  }
+
+  .provider-application-submit {
+    width: 100%;
+  }
+}

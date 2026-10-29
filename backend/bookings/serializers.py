@@ -6,7 +6,8 @@ from providers.models import ProviderProfile, Service
 class BookingCreateSerializer(serializers.ModelSerializer):
     service = serializers.PrimaryKeyRelatedField(
         queryset=Service.objects.filter(
-            provider__status=ProviderProfile.Status.APPROVED
+            status=Service.Status.APPROVED,
+            provider__status=ProviderProfile.Status.APPROVED,
         )
     )
 
@@ -23,17 +24,16 @@ class BookingCreateSerializer(serializers.ModelSerializer):
 
 
 class ProviderBookingSerializer(serializers.ModelSerializer):
-
     customer_name = serializers.CharField(
         source="customer.name",
-        read_only=True
+        read_only=True,
     )
 
     customer_phone = serializers.SerializerMethodField()
 
     service_name = serializers.CharField(
         source="service.service_name",
-        read_only=True
+        read_only=True,
     )
 
     address = serializers.SerializerMethodField()
@@ -42,7 +42,6 @@ class ProviderBookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-
         fields = [
             "id",
             "customer_name",
@@ -56,7 +55,6 @@ class ProviderBookingSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         ]
-
         read_only_fields = fields
 
     def get_customer_phone(self, obj):
@@ -93,22 +91,20 @@ class ProviderBookingSerializer(serializers.ModelSerializer):
 
 
 class CustomerBookingSerializer(serializers.ModelSerializer):
-
     provider_name = serializers.CharField(
         source="service.provider.user.name",
-        read_only=True
+        read_only=True,
     )
 
     provider_phone = serializers.SerializerMethodField()
 
     service_name = serializers.CharField(
         source="service.service_name",
-        read_only=True
+        read_only=True,
     )
 
     class Meta:
         model = Booking
-
         fields = [
             "id",
             "provider_name",
@@ -122,7 +118,6 @@ class CustomerBookingSerializer(serializers.ModelSerializer):
             "status",
             "created_at",
         ]
-
         read_only_fields = fields
 
     def get_provider_phone(self, obj):
@@ -135,13 +130,11 @@ class CustomerBookingSerializer(serializers.ModelSerializer):
 
 
 class BookingStatusSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Booking
         fields = ["status"]
 
     def validate_status(self, value):
-
         current_status = self.instance.status
 
         if current_status == Booking.Status.PENDING:

@@ -1,3 +1,4 @@
+
 from rest_framework import serializers
 
 from .models import ProviderProfile, Service
@@ -23,5 +24,12 @@ class ProviderProfileSerializer(serializers.ModelSerializer):
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = ["id", "category", "service_name", "description", "price",]
-        read_only_fields = ["id"]
+        fields = [
+            "id",
+            "category",
+            "service_name",
+            "description",
+            "price",
+            "status",
+        ]
+        read_only_fields = ["id", "status"]
