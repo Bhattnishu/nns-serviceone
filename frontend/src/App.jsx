@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -10,6 +11,8 @@ import ProviderDetails from "./pages/provider-details/ProviderDetails";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Profile from "./pages/profile/Profile";
+import MyBookings from "./pages/my-bookings/MyBookings";
+import ProviderBookings from "./pages/provider-bookings/ProviderBookings";
 
 const App = () => (
     <AuthProvider>
@@ -19,19 +22,33 @@ const App = () => (
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/services" element={<Services />} />
+
                 <Route
                     path="/providers/:providerId/services/:serviceId"
                     element={<ServiceDetails />}
                 />
+
                 <Route
                     path="/providers/:id"
                     element={<ProviderDetails />}
                 />
+
                 <Route path="/profile" element={<Profile />} />
+
                 <Route
                     path="/offer-service"
                     element={<OfferService />}
                 />
+
+                <Route
+                    path="/my-bookings"
+                    element={<MyBookings />}
+                />
+                <Route
+                    path="/provider-bookings"
+                    element={<ProviderBookings />}
+                />
+
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
             </Routes>

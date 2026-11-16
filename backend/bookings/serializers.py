@@ -22,6 +22,30 @@ class BookingCreateSerializer(serializers.ModelSerializer):
             "longitude",
         ]
 
+    def validate(self, attrs):
+        service = attrs.get("service")
+        customer = self.context["request"].user
+
+        existing_booking = Booking.objects.filter(
+            customer=customer,
+            service=service,
+            status__in=[
+                Booking.Status.PENDING,
+                Booking.Status.ACCEPTED,
+            ],
+        ).exists()
+
+        if existing_booking:
+            raise serializers.ValidationError({
+                "service": (
+                    "You already have an active booking for this service. "
+                    "Please wait until it is completed, rejected, "
+                    "or cancelled before booking again."
+                )
+            })
+
+        return attrs
+
 
 class ProviderBookingSerializer(serializers.ModelSerializer):
     customer_name = serializers.CharField(

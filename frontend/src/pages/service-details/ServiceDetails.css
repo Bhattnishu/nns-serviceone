@@ -112,6 +112,148 @@
     color: var(--error);
 }
 
+.book-service-button {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin: 20px 0 28px auto;
+    padding: 13px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    background-color: var(--accent);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.book-service-button:hover {
+    opacity: 0.9;
+}
+
+
+/* Booking popup background */
+.booking-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+/* Booking popup */
+.booking-modal {
+    width: 100%;
+    max-width: 460px;
+    padding: 28px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
+}
+
+.booking-modal h2 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: 21px;
+}
+
+.booking-modal > p {
+    margin: 0 0 22px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Message field */
+.booking-modal label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.booking-modal textarea {
+    width: 100%;
+    padding: 12px;
+    resize: vertical;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 14px;
+}
+
+.booking-modal textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Popup buttons */
+.booking-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.booking-modal-actions button {
+    padding: 11px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.booking-modal-actions button[type="submit"] {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+.booking-modal-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Error and success messages */
+.booking-error {
+    margin-top: 12px;
+    color: var(--error);
+    font-size: 13px;
+}
+
+.booking-success {
+    margin-top: 14px;
+    color: var(--success);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .booking-modal {
+        padding: 22px;
+    }
+
+    .booking-modal-actions button {
+        padding: 10px 14px;
+    }
+    .book-service-button {
+        max-width: none;
+        width: 100%;
+        margin: 18px 0 24px;
+    }
+}
+
 /* Tablet */
 @media (max-width: 800px) {
     .service-details-page {

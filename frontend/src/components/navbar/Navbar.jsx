@@ -41,7 +41,10 @@ const Navbar = () => {
                 <div className="navbar-links">
                     <Link to="/">Home</Link>
                     <Link to="/services">Find Services</Link>
-                    <Link to="/my-bookings">My Bookings</Link>
+
+                    {isAuthenticated && (
+                        <Link to="/my-bookings">My Bookings</Link>
+                    )}
                 </div>
 
                 <div className="navbar-actions">
@@ -84,25 +87,17 @@ const Navbar = () => {
                            
                             {isProfileOpen && (
                                 <div className="profile-dropdown">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            setIsProfileOpen(false);
-                                            navigate("/profile");
-                                        }}
-                                    >
+                                    <button onClick={() => { setIsProfileOpen(false); navigate("/profile"); }}>
                                         My Profile
                                     </button>
 
-                                    <button
-                                        type="button"
-                                        onClick={handleLogout}
-                                    >
-                                        Log out
+                                    <button onClick={() => { setIsProfileOpen(false); navigate("/provider-bookings"); }}>
+                                        Booking Requests
                                     </button>
+
+                                    <button onClick={handleLogout}>Log out</button>
                                 </div>
                             )}
-
                         </div>
                     )}
                 </div>
@@ -133,9 +128,11 @@ const Navbar = () => {
                             Find Services
                         </Link>
 
-                        <Link to="/my-bookings" onClick={closeMenu}>
-                            My Bookings
-                        </Link>
+                        {isAuthenticated && (
+                            <Link to="/my-bookings" onClick={closeMenu}>
+                                My Bookings
+                            </Link>
+                        )}
 
                         {!isAuthenticated ? (
                             <>
@@ -150,17 +147,11 @@ const Navbar = () => {
 
                         ) : (
                             <>
-                                <Link to="/profile" onClick={closeMenu}>
-                                    My Profile
+                                <Link to="/profile" onClick={closeMenu}>My Profile</Link>
+                                <Link to="/provider-bookings" onClick={closeMenu}>
+                                    Booking Requests
                                 </Link>
-
-                                <button
-                                    type="button"
-                                    className="mobile-logout-btn"
-                                    onClick={handleLogout}
-                                >
-                                    Log out
-                                </button>
+                                <button className="mobile-logout-btn" onClick={handleLogout}>Log out</button>
                             </>
                         )}
 
