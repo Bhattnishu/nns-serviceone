@@ -27,7 +27,7 @@ class CustomerBookingListView(generics.ListAPIView):
     def get_queryset(self):
         return Booking.objects.filter(
             customer=self.request.user
-        )
+        ).order_by("-created_at")
 
 
 class ProviderBookingListView(generics.ListAPIView):
@@ -37,7 +37,7 @@ class ProviderBookingListView(generics.ListAPIView):
     def get_queryset(self):
         return Booking.objects.filter(
             service__provider__user=self.request.user
-        )
+        ).order_by("-created_at")
 
 
 class ProviderBookingStatusView(generics.UpdateAPIView):

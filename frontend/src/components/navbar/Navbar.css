@@ -225,10 +225,42 @@
     position: relative;
 }
 
+
 .mobile-logout-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 10px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+
+    color: var(--text-primary);
+    font-family: inherit;
     font-size: 16px;
     font-weight: 500;
+    text-align: left;
+
+    cursor: pointer;
+    transition: 
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }
+
+.mobile-logout-btn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #f87171;
+}
+
+.mobile-logout-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
 
 /* Responsive layout */
 @media (max-width: 768px) {

@@ -26,6 +26,13 @@ class BookingCreateSerializer(serializers.ModelSerializer):
         service = attrs.get("service")
         customer = self.context["request"].user
 
+        # Prevent providers from booking their own services.
+        if service.provider.user_id == customer.id:
+            raise serializers.ValidationError({
+                "service": "You cannot book your own service."
+            })
+
+        # Prevent duplicate active bookings.
         existing_booking = Booking.objects.filter(
             customer=customer,
             service=service,
