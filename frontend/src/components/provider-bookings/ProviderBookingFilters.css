@@ -1,0 +1,40 @@
+.provider-booking-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 28px 0 22px;
+}
+
+.provider-booking-filter-btn {
+    padding: 9px 17px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.provider-booking-filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.provider-booking-filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+@media (max-width: 500px) {
+    .provider-booking-filters {
+        gap: 8px;
+    }
+
+    .provider-booking-filter-btn {
+        padding: 8px 13px;
+        font-size: 13px;
+    }
+}

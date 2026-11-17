@@ -1,7 +1,18 @@
-
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import ProviderBookingStats from "../../components/provider-bookings/ProviderBookingStats";
+import ProviderBookingFilters from "../../components/provider-bookings/ProviderBookingFilters";
+import ProviderBookingCard from "../../components/provider-bookings/ProviderBookingCard";
+import BookingDetailsModal from "../../components/provider-bookings/BookingDetailsModal";
 import "./ProviderBookings.css";
+
+const filters = [
+    { label: "All", value: "ALL" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Accepted", value: "ACCEPTED" },
+    { label: "Rejected", value: "REJECTED" },
+    { label: "Completed", value: "COMPLETED" },
+];
 
 const ProviderBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -11,26 +22,25 @@ const ProviderBookings = () => {
     const [activeFilter, setActiveFilter] = useState("ALL");
     const [selectedBooking, setSelectedBooking] = useState(null);
 
-    const filters = [
-        { label: "All", value: "ALL" },
-        { label: "Pending", value: "PENDING" },
-        { label: "Accepted", value: "ACCEPTED" },
-        { label: "Rejected", value: "REJECTED" },
-        { label: "Completed", value: "COMPLETED" },
-    ];
-
     const fetchBookings = async () => {
         try {
             setLoading(true);
             setError("");
+
             const response = await api.get("/bookings/provider/");
+
             const data = Array.isArray(response.data)
                 ? response.data
                 : response.data.results || [];
+
             setBookings(data);
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.detail || "Unable to load booking requests.");
+
+            setError(
+                err.response?.data?.detail ||
+                "Unable to load booking requests."
+            );
         } finally {
             setLoading(false);
         }
@@ -40,11 +50,14 @@ const ProviderBookings = () => {
         fetchBookings();
     }, []);
 
-    
     const updateBookingStatus = async (bookingId, newStatus) => {
         const action = newStatus.toLowerCase();
 
-        if (!window.confirm(`Are you sure you want to ${action} this booking?`)) {
+        if (
+            !window.confirm(
+                `Are you sure you want to ${action} this booking?`
+            )
+        ) {
             return;
         }
 
@@ -52,12 +65,11 @@ const ProviderBookings = () => {
             setUpdatingId(bookingId);
             setError("");
 
-            // Update booking status
             await api.patch(`/bookings/${bookingId}/status/`, {
                 status: newStatus,
             });
 
-            // Fetch fresh booking data, including newly available contact details
+            // Fetch updated data so newly available contact details are included.
             const response = await api.get("/bookings/provider/");
 
             const updatedBookings = Array.isArray(response.data)
@@ -73,7 +85,6 @@ const ProviderBookings = () => {
             if (updatedBooking) {
                 setSelectedBooking(updatedBooking);
             }
-
         } catch (err) {
             console.error("Failed to update booking:", err);
 
@@ -87,11 +98,16 @@ const ProviderBookings = () => {
         }
     };
 
-
     const formatDate = (date) => {
         if (!date) return "Not available";
 
-        return new Date(date).toLocaleString("en-IN", {
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return "Not available";
+        }
+
+        return parsedDate.toLocaleString("en-IN", {
             day: "numeric",
             month: "short",
             year: "numeric",
@@ -103,13 +119,18 @@ const ProviderBookings = () => {
     const getCount = (status) =>
         bookings.filter((booking) => booking.status === status).length;
 
-    const formatStatus = (status) =>
-        status.charAt(0) + status.slice(1).toLowerCase();
+    const formatStatus = (status) => {
+        if (!status) return "Unknown";
+
+        return status.charAt(0) + status.slice(1).toLowerCase();
+    };
 
     const filteredBookings =
         activeFilter === "ALL"
             ? bookings
-            : bookings.filter((booking) => booking.status === activeFilter);
+            : bookings.filter(
+                (booking) => booking.status === activeFilter
+            );
 
     const renderActions = (booking) => (
         <div className="provider-booking-actions">
@@ -119,7 +140,9 @@ const ProviderBookings = () => {
                         type="button"
                         className="booking-accept-btn"
                         disabled={updatingId === booking.id}
-                        onClick={() => updateBookingStatus(booking.id, "ACCEPTED")}
+                        onClick={() =>
+                            updateBookingStatus(booking.id, "ACCEPTED")
+                        }
                     >
                         {updatingId === booking.id ? "Updating..." : "Accept"}
                     </button>
@@ -128,7 +151,9 @@ const ProviderBookings = () => {
                         type="button"
                         className="booking-reject-btn"
                         disabled={updatingId === booking.id}
-                        onClick={() => updateBookingStatus(booking.id, "REJECTED")}
+                        onClick={() =>
+                            updateBookingStatus(booking.id, "REJECTED")
+                        }
                     >
                         Reject
                     </button>
@@ -140,9 +165,13 @@ const ProviderBookings = () => {
                     type="button"
                     className="booking-complete-btn"
                     disabled={updatingId === booking.id}
-                    onClick={() => updateBookingStatus(booking.id, "COMPLETED")}
+                    onClick={() =>
+                        updateBookingStatus(booking.id, "COMPLETED")
+                    }
                 >
-                    {updatingId === booking.id ? "Updating..." : "Mark Completed"}
+                    {updatingId === booking.id
+                        ? "Updating..."
+                        : "Mark Completed"}
                 </button>
             )}
         </div>
@@ -156,8 +185,12 @@ const ProviderBookings = () => {
                         <span className="provider-bookings-eyebrow">
                             PROVIDER DASHBOARD
                         </span>
+
                         <h1>Booking Requests</h1>
-                        <p>Manage customer requests for your services.</p>
+
+                        <p>
+                            Manage customer requests for your services.
+                        </p>
                     </div>
 
                     <button
@@ -166,54 +199,32 @@ const ProviderBookings = () => {
                         onClick={fetchBookings}
                         disabled={loading}
                     >
-                        Refresh
+                        {loading ? "Refreshing..." : "Refresh"}
                     </button>
                 </header>
 
-                <section className="provider-booking-stats">
-                    <div className="provider-stat-card">
-                        <span>Total Bookings</span>
-                        <strong>{bookings.length}</strong>
-                    </div>
-                    <div className="provider-stat-card">
-                        <span>Pending</span>
-                        <strong>{getCount("PENDING")}</strong>
-                    </div>
-                    <div className="provider-stat-card">
-                        <span>Accepted</span>
-                        <strong>{getCount("ACCEPTED")}</strong>
-                    </div>
-                    <div className="provider-stat-card">
-                        <span>Completed</span>
-                        <strong>{getCount("COMPLETED")}</strong>
-                    </div>
-                </section>
+                <ProviderBookingStats
+                    bookings={bookings}
+                    getCount={getCount}
+                />
 
                 {error && (
-                    <div className="provider-bookings-error" role="alert">
+                    <div
+                        className="provider-bookings-error"
+                        role="alert"
+                    >
                         {error}
                     </div>
                 )}
 
                 {!loading && bookings.length > 0 && (
-                    <div className="booking-filters">
-                        {filters.map((filter) => (
-                            <button
-                                key={filter.value}
-                                type="button"
-                                className={`booking-filter-btn ${
-                                    activeFilter === filter.value ? "active" : ""
-                                }`}
-                                onClick={() => setActiveFilter(filter.value)}
-                            >
-                                {filter.label} (
-                                {filter.value === "ALL"
-                                    ? bookings.length
-                                    : getCount(filter.value)}
-                                )
-                            </button>
-                        ))}
-                    </div>
+                    <ProviderBookingFilters
+                        filters={filters}
+                        bookings={bookings}
+                        activeFilter={activeFilter}
+                        onFilterChange={setActiveFilter}
+                        getCount={getCount}
+                    />
                 )}
 
                 {loading ? (
@@ -223,141 +234,44 @@ const ProviderBookings = () => {
                 ) : bookings.length === 0 ? (
                     <div className="provider-bookings-empty">
                         <h2>No booking requests yet</h2>
-                        <p>Customer booking requests will appear here.</p>
+                        <p>
+                            Customer booking requests will appear here.
+                        </p>
                     </div>
                 ) : filteredBookings.length === 0 ? (
                     <div className="provider-bookings-empty">
-                        <h2>No {formatStatus(activeFilter)} bookings</h2>
-                        <p>There are currently no bookings with this status.</p>
+                        <h2>
+                            No {formatStatus(activeFilter)} bookings
+                        </h2>
+
+                        <p>
+                            There are currently no bookings with this status.
+                        </p>
                     </div>
                 ) : (
                     <section className="provider-booking-list">
                         {filteredBookings.map((booking) => (
-                            <article className="provider-booking-card" key={booking.id}>
-                                <div className="provider-booking-top">
-                                    <div>
-                                        <span className="provider-booking-label">
-                                            SERVICE
-                                        </span>
-                                        <h2>{booking.service_name}</h2>
-                                    </div>
-
-                                    <span
-                                        className={`provider-booking-status status-${booking.status.toLowerCase()}`}
-                                    >
-                                        {formatStatus(booking.status)}
-                                    </span>
-                                </div>
-
-                                <div className="provider-booking-details">
-                                    <div>
-                                        <span>Customer</span>
-                                        <strong>{booking.customer_name}</strong>
-                                    </div>
-                                    <div>
-                                        <span>Requested on</span>
-                                        <strong>{formatDate(booking.created_at)}</strong>
-                                    </div>
-                                </div>
-
-                                <div className="provider-booking-footer">
-                                    <span>Booking #{booking.id}</span>
-
-                                    <div className="provider-booking-actions">
-                                        <button
-                                            type="button"
-                                            className="booking-view-btn"
-                                            onClick={() => setSelectedBooking(booking)}
-                                        >
-                                            View Details
-                                        </button>
-                                        {renderActions(booking)}
-                                    </div>
-                                </div>
-                            </article>
+                            <ProviderBookingCard
+                                key={booking.id}
+                                booking={booking}
+                                formatDate={formatDate}
+                                formatStatus={formatStatus}
+                                onViewDetails={setSelectedBooking}
+                                renderActions={renderActions}
+                            />
                         ))}
                     </section>
                 )}
             </div>
 
             {selectedBooking && (
-                <div
-                    className="booking-detail-overlay"
-                    onClick={() => setSelectedBooking(null)}
-                >
-                    <div
-                        className="booking-detail-modal"
-                        onClick={(event) => event.stopPropagation()}
-                    >
-                        <div className="booking-detail-header">
-                            <div>
-                                <span>BOOKING #{selectedBooking.id}</span>
-                                <h2>Booking Details</h2>
-                            </div>
-                            <button
-                                type="button"
-                                className="booking-detail-close"
-                                onClick={() => setSelectedBooking(null)}
-                                aria-label="Close booking details"
-                            >
-                                ×
-                            </button>
-                        </div>
-
-                        <div className="booking-detail-content">
-                            <div className="booking-detail-service">
-                                <span>Service</span>
-                                <strong>{selectedBooking.service_name}</strong>
-                            </div>
-
-                            <div className="booking-detail-grid">
-                                <div>
-                                    <span>Customer</span>
-                                    <strong>{selectedBooking.customer_name}</strong>
-                                </div>
-                                <div>
-                                    <span>Status</span>
-                                    <strong>{formatStatus(selectedBooking.status)}</strong>
-                                </div>
-                                <div>
-                                    <span>Request date</span>
-                                    <strong>{formatDate(selectedBooking.created_at)}</strong>
-                                </div>
-                                <div>
-                                    <span>Preferred date</span>
-                                    <strong>
-                                        {formatDate(selectedBooking.preferred_date)}
-                                    </strong>
-                                </div>
-                            </div>
-
-                            <div className="booking-detail-section">
-                                <span>Customer Message</span>
-                                <p>{selectedBooking.message || "No message provided."}</p>
-                            </div>
-
-                            <div className="booking-detail-section">
-                                <span>Customer Phone</span>
-                                <p>
-                                    {selectedBooking.customer_phone ||
-                                        "Available after booking acceptance."}
-                                </p>
-                            </div>
-
-                            <div className="booking-detail-section">
-                                <span>Customer Address</span>
-                                <p>
-                                    {selectedBooking.address ||
-                                        "Available after booking acceptance."}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="booking-detail-footer">
-                            {renderActions(selectedBooking)}
-                        </div>
-                    </div>
-                </div>
+                <BookingDetailsModal
+                    booking={selectedBooking}
+                    formatDate={formatDate}
+                    formatStatus={formatStatus}
+                    onClose={() => setSelectedBooking(null)}
+                    renderActions={renderActions}
+                />
             )}
         </main>
     );

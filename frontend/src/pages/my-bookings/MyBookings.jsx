@@ -1,16 +1,9 @@
-
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+import BookingStats from "../../components/my-bookings/BookingStats";
+import BookingFilters from "../../components/my-bookings/BookingFilters";
+import BookingCard from "../../components/my-bookings/BookingCard";
 import "./MyBookings.css";
-
-const filters = [
-    { label: "All", value: "ALL" },
-    { label: "Pending", value: "PENDING" },
-    { label: "Accepted", value: "ACCEPTED" },
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Rejected", value: "REJECTED" },
-    { label: "Cancelled", value: "CANCELLED" },
-];
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -101,11 +94,8 @@ const MyBookings = () => {
         return status.charAt(0) + status.slice(1).toLowerCase();
     };
 
-    const getCount = (status) => {
-        return bookings.filter(
-            (booking) => booking.status === status
-        ).length;
-    };
+    const getCount = (status) =>
+        bookings.filter((booking) => booking.status === status).length;
 
     const filteredBookings = bookings.filter((booking) =>
         activeFilter === "ALL"
@@ -139,8 +129,6 @@ const MyBookings = () => {
     return (
         <main className="my-bookings-page">
             <div className="my-bookings-container">
-
-                {/* Page Header */}
                 <header className="my-bookings-header">
                     <div>
                         <span className="my-bookings-eyebrow">
@@ -164,9 +152,8 @@ const MyBookings = () => {
                     </button>
                 </header>
 
-                {/* Error Message */}
                 {error && (
-                    <div className="bookings-error">
+                    <div className="bookings-error" role="alert">
                         <span>{error}</span>
 
                         <button
@@ -186,59 +173,20 @@ const MyBookings = () => {
                     </div>
                 ) : (
                     <>
-                        {/* Summary Cards */}
                         {bookings.length > 0 && (
-                            <section className="booking-stats">
-                                {stats.map((stat) => (
-                                    <div
-                                        className={`booking-stat-card ${stat.className}`}
-                                        key={stat.label}
-                                    >
-                                        <span>{stat.label}</span>
-                                        <strong>{stat.value}</strong>
-                                    </div>
-                                ))}
-                            </section>
+                            <BookingStats stats={stats} />
                         )}
 
-                        {/* Filters */}
                         {bookings.length > 0 && (
-                            <section className="booking-filter-section">
-                                <div className="booking-filter-heading">
-                                    <h2>Your Requests</h2>
-                                    <span>
-                                        {filteredBookings.length} booking(s)
-                                    </span>
-                                </div>
-
-                                <div className="booking-filters">
-                                    {filters.map((filter) => (
-                                        <button
-                                            key={filter.value}
-                                            type="button"
-                                            className={`booking-filter-btn ${
-                                                activeFilter === filter.value
-                                                    ? "active"
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                setActiveFilter(filter.value)
-                                            }
-                                        >
-                                            {filter.label}
-
-                                            <span>
-                                                {filter.value === "ALL"
-                                                    ? bookings.length
-                                                    : getCount(filter.value)}
-                                            </span>
-                                        </button>
-                                    ))}
-                                </div>
-                            </section>
+                            <BookingFilters
+                                bookings={bookings}
+                                filteredCount={filteredBookings.length}
+                                activeFilter={activeFilter}
+                                onFilterChange={setActiveFilter}
+                                getCount={getCount}
+                            />
                         )}
 
-                        {/* Empty State */}
                         {bookings.length === 0 ? (
                             <div className="bookings-empty">
                                 <div className="bookings-empty-icon">
@@ -258,7 +206,9 @@ const MyBookings = () => {
                                     <span>⌕</span>
                                 </div>
 
-                                <h2>No {activeFilter.toLowerCase()} bookings</h2>
+                                <h2>
+                                    No {activeFilter.toLowerCase()} bookings
+                                </h2>
 
                                 <p>
                                     You don't have any bookings with this status.
@@ -274,111 +224,16 @@ const MyBookings = () => {
                                 </button>
                             </div>
                         ) : (
-                            /* Booking Cards */
                             <div className="bookings-list">
                                 {filteredBookings.map((booking) => (
-                                    <article
-                                        className="booking-card"
+                                    <BookingCard
                                         key={booking.id}
-                                    >
-                                        <div className="booking-card-top">
-                                            <div className="booking-service-info">
-                                                <span className="booking-service-label">
-                                                    SERVICE REQUEST
-                                                </span>
-
-                                                <h2>{booking.service_name}</h2>
-                                            </div>
-
-                                            <span
-                                                className={`booking-status status-${(
-                                                    booking.status || ""
-                                                ).toLowerCase()}`}
-                                            >
-                                                {formatStatus(booking.status)}
-                                            </span>
-                                        </div>
-
-                                        <div className="booking-details-grid">
-                                            <div className="booking-detail">
-                                                <span>Provider</span>
-                                                <strong>
-                                                    {booking.provider_name || "Not available"}
-                                                </strong>
-                                            </div>
-
-                                            <div className="booking-detail">
-                                                <span>Requested on</span>
-                                                <strong>
-                                                    {formatDate(booking.created_at)}
-                                                </strong>
-                                            </div>
-
-                                            {booking.preferred_date && (
-                                                <div className="booking-detail">
-                                                    <span>Preferred date</span>
-                                                    <strong>
-                                                        {formatDate(booking.preferred_date)}
-                                                    </strong>
-                                                </div>
-                                            )}
-
-                                            {booking.address && (
-                                                <div className="booking-detail">
-                                                    <span>Service address</span>
-                                                    <strong>{booking.address}</strong>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Provider Contact */}
-                                        {booking.provider_phone && (
-                                            <div className="booking-contact">
-                                                <div className="booking-contact-icon">
-                                                    ☎
-                                                </div>
-
-                                                <div>
-                                                    <span>Provider contact</span>
-                                                    <strong>
-                                                        {booking.provider_phone}
-                                                    </strong>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {booking.message && (
-                                            <div className="booking-message">
-                                                <span>Your message</span>
-                                                <p>{booking.message}</p>
-                                            </div>
-                                        )}
-
-                                        <div className="booking-card-footer">
-                                            <span className="booking-id">
-                                                Booking #{booking.id}
-                                            </span>
-
-                                            {["PENDING", "ACCEPTED"].includes(
-                                                booking.status
-                                            ) && (
-                                                <button
-                                                    type="button"
-                                                    className="cancel-booking-btn"
-                                                    onClick={() =>
-                                                        handleCancel(booking.id)
-                                                    }
-                                                    disabled={
-                                                        cancellingId === booking.id
-                                                    }
-                                                >
-                                                    {cancellingId === booking.id
-                                                        ? "Cancelling..."
-                                                        : "Cancel Booking"}
-                                                </button>
-                                            )}
-                                        </div>
-                                    </article>
+                                        booking={booking}
+                                        formatDate={formatDate}
+                                        formatStatus={formatStatus}
+                                        onCancel={handleCancel}
+                                        cancellingId={cancellingId}
+                                    />
                                 ))}
                             </div>
                         )}
