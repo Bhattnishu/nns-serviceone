@@ -1,12 +1,14 @@
+
 import { Link } from "react-router-dom";
 import "./Hero.css";
 import ServiceSearch from "../service-search/ServiceSearch";
 
 const Hero = () => {
+  const isLoggedIn = Boolean(localStorage.getItem("accessToken"));
+
   return (
     <section className="hero">
       <div className="hero-content">
-
         <p className="hero-label">LOCAL SERVICES</p>
 
         <h1>
@@ -20,16 +22,19 @@ const Hero = () => {
         </p>
 
         <div className="hero-actions">
-          <Link to= "/services" className="primary-btn">
+          <Link to="/services" className="primary-btn">
             Find a Service
           </Link>
 
-          <Link to="/offer-service" className="secondary-btn">
+          <Link
+            to={isLoggedIn ? "/offer-service" : "/login"}
+            className="secondary-btn"
+          >
             Offer Your Service
           </Link>
         </div>
-
       </div>
+
       <ServiceSearch />
     </section>
   );

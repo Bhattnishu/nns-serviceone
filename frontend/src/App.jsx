@@ -13,6 +13,7 @@ import Register from "./pages/register/Register";
 import Profile from "./pages/profile/Profile";
 import MyBookings from "./pages/my-bookings/MyBookings";
 import ProviderBookings from "./pages/provider-bookings/ProviderBookings";
+import MyServices from "./pages/my-services/MyServices";
 
 const App = () => (
     <AuthProvider>
@@ -51,6 +52,7 @@ const App = () => (
 
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/my-services" element={<MyServices />} />
             </Routes>
         </BrowserRouter>
     </AuthProvider>

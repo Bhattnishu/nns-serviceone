@@ -4,6 +4,7 @@ import api from "../../api/axios";
 import ProviderApplication from "../../components/offer-service-components/ProviderApplication";
 import ServiceForm from "../../components/offer-service-components/ServiceForm";
 import MyServicesList from "../../components/offer-service-components/MyServicesList";
+import { useNavigate } from "react-router-dom";
 
 const getErrorMessage = (err, fallback) => {
   const data = err.response?.data;
@@ -59,6 +60,8 @@ const OfferService = () => {
   const [deletingServiceId, setDeletingServiceId] = useState(null);
   const [serviceForm, setServiceForm] = useState(emptyServiceForm);
 
+  const navigate = useNavigate();
+
   const authConfig = () => ({
     headers: {
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -100,8 +103,7 @@ const OfferService = () => {
   useEffect(() => {
     const checkProviderProfile = async () => {
       if (!localStorage.getItem("accessToken")) {
-        setProfileError("Please log in to offer your services.");
-        setLoading(false);
+        navigate("/login", { replace: true });
         return;
       }
 
@@ -115,8 +117,13 @@ const OfferService = () => {
         if (err.response?.status === 404) {
           setProviderProfile(null);
         } else if (err.response?.status === 401) {
-          setProfileError("Your session has expired. Please log in again.");
-        } else {
+          navigate("/login", {
+            replace: true,
+            state: {
+              message: "Your session has expired. Please log in again.",
+            },
+          });
+        }else {
           setProfileError("Could not load your provider profile.");
         }
       } finally {

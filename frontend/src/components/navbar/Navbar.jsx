@@ -94,6 +94,9 @@ const Navbar = () => {
                                     <button onClick={() => { setIsProfileOpen(false); navigate("/provider-bookings"); }}>
                                         Booking Requests
                                     </button>
+                                    <button onClick={() => { setIsProfileOpen(false); navigate("/my-services"); }}>
+                                        My Services
+                                    </button>
 
                                     <button onClick={handleLogout}>Log out</button>
                                 </div>
@@ -150,6 +153,9 @@ const Navbar = () => {
                                 <Link to="/profile" onClick={closeMenu}>My Profile</Link>
                                 <Link to="/provider-bookings" onClick={closeMenu}>
                                     Booking Requests
+                                </Link>
+                                <Link to="/my-services" onClick={closeMenu}>
+                                    My Services
                                 </Link>
                                 <button className="mobile-logout-btn" onClick={handleLogout}>Log out</button>
                             </>

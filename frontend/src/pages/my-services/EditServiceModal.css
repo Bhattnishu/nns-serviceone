@@ -1,0 +1,134 @@
+
+.edit-service-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.edit-service-modal {
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #111827;
+    color: #f8fafc;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.edit-service-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.edit-service-modal-header h2 {
+    margin: 0;
+    color: #f8fafc;
+    font-size: 1.4rem;
+}
+
+.edit-service-modal-header button {
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.edit-service-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-service-modal label {
+    margin-top: 8px;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.edit-service-modal input,
+.edit-service-modal textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    outline: none;
+    background: #080b10;
+    color: #f8fafc;
+    font: inherit;
+}
+
+.edit-service-modal input:focus,
+.edit-service-modal textarea:focus {
+    border-color: #14b8a6;
+}
+
+.edit-service-modal textarea {
+    resize: vertical;
+}
+
+.edit-service-error {
+    margin: 8px 0;
+    color: #ef4444;
+    font-size: 0.9rem;
+}
+
+.edit-service-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.cancel-edit-btn,
+.save-edit-btn {
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-edit-btn {
+    border: 1px solid #334155;
+    background: transparent;
+    color: #f8fafc;
+}
+
+.save-edit-btn {
+    border: none;
+    background: #0f766e;
+    color: #fff;
+}
+
+.cancel-edit-btn:disabled,
+.save-edit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .edit-service-modal {
+        padding: 20px;
+    }
+
+    .edit-service-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .cancel-edit-btn,
+    .save-edit-btn {
+        width: 100%;
+    }
+}
